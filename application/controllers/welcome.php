@@ -25,26 +25,19 @@ class Welcome extends CI_Controller {
 
 		//$this->load->view('style_Resources/header');
 		//$this->load->view('style_Resources/menu');
-		$this->load->view('welcome2');
+		$this->load->view('test');
 		//$this->load->view('style_Resources/footer');
 	}
 
 	public function ifsets()
 	{
 
-		// Unescape the string values in the JSON array
-
-		$tableData = stripcslashes($_POST['pTableData']);
-
-		// Decode the JSON array
-		$tableData = json_decode($tableData,TRUE);
-
-		// now $tableData can be accessed like a PHP array
-		echo $tableData['IndexNo'];
-		echo $tableData[1]['Marks'];
-
-		$message = "<strong>Leave</strong> Created!";
-		$this->json_response(TRUE, $message);
+	$query = mysql_query("select * from login_db");
+while($fetch = mysql_fetch_array($query))
+{
+		$output[] = array ($fetch[0],$fetch[1],$fetch[2]);
+}
+echo json_encode($output);
 
 	}
 
