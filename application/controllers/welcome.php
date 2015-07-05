@@ -35,9 +35,10 @@ class Welcome extends CI_Controller {
 	$query = mysql_query("select * from login_db");
 while($fetch = mysql_fetch_array($query))
 {
-		$output[] = array ($fetch[0],$fetch[1],$fetch[2]);
+		$output[] = array ($fetch['name'],$fetch['password'],$fetch['role']);
 }
 echo json_encode($output);
+
 
 	}
 

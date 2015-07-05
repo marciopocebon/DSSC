@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?php echo base_url()?>bootstrap/plugins/datatables/dataTables.bootstrap.css" />
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -34,7 +35,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="example2" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
                                 <th>Date of Leave</th>
@@ -44,18 +45,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($results as $result): ?>
-                                <tr>
-                                    <td><?= $result['leave_date']; ?></td>
-                                    <td><?= $result['emp_name']; ?></td>
-                                    <td><?= $result['signature_id']; ?></td>
-                                    <td><?= $result['leave_type']; ?></td>
-                                    <td>
-                                        <a href="<?php echo base_url('index.php/acceptController/tableLink?index=') . $result['leave_id']; ?>"><i
-                                                class="btn btn-xs btn-warning">More</i> </a></td>
-
-                                </tr>
-                            <?php endforeach; ?>
+<!--                            --><?php //foreach ($results as $result): ?>
+<!--                                <tr>-->
+<!--                                    <td>--><?//= $result['leave_date']; ?><!--</td>-->
+<!--                                    <td>--><?//= $result['emp_name']; ?><!--</td>-->
+<!--                                    <td>--><?//= $result['signature_id']; ?><!--</td>-->
+<!--                                    <td>--><?//= $result['leave_type']; ?><!--</td>-->
+<!--                                    <td>-->
+<!--                                        <a href="--><?php //echo base_url('index.php/acceptController/tableLink?index=') . $result['leave_id']; ?><!--"><i-->
+<!--                                                class="btn btn-xs btn-warning">More</i> </a></td>-->
+<!---->
+<!--                                </tr>-->
+<!--                            --><?php //endforeach; ?>
                             </tbody>
                             <tfoot>
                             <tr>
@@ -119,6 +120,43 @@
 </div><!-- /.content-wrapper -->
 
 <script>
+    $(document).ready(function() {
+
+        //$('#jsontable').dataTable( {
+        //     "ajax": 'arrays.txt'
+        // } );
+
+        var oTable = $('#example1').dataTable();  //Initialize the datatable
+
+
+        var user = $(this).attr('id');
+        if(user != '')
+        {
+            $.ajax({
+                url: '<?= site_url('leaveEditController/dbSelect'); ?>',
+                dataType: 'json',
+                success: function(s){
+                    console.log(s);
+                    oTable.fnClearTable();
+                    for(var i = 0; i < s.length; i++) {
+                        oTable.fnAddData([
+                            s[i][0],
+                            s[i][1],
+                            s[i][2],
+                            s[i][3],
+                            s[i][4]
+                        ]);
+
+                    } // End For
+
+                },
+                error: function(e){
+                    console.log(e.responseText);
+                }
+            });
+        }
+    });
+
     $(function () {
 //        $( "#datepicker" ).datepicker();
         $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");

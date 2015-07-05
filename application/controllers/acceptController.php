@@ -6,11 +6,11 @@ class AcceptController extends CI_Controller
     public function index()
     {
 
-        $this->select();
+        $this->viewAcceptLeave();
     }
 
     //accept view loader
-    public function viewAcceptLeave($data)
+    public function viewAcceptLeave()
     {
         $data['title'] = 'DSSC Management';
         $this->load->view('style_Resources/header', $data);
@@ -31,11 +31,13 @@ class AcceptController extends CI_Controller
     //retrieving data from the database
     public function select()
     {
-        $this->load->model("dbaccess");
-        $data['query']="SELECT * FROM `leave` LEFT JOIN `employee` ON `leave`.`user_id` = `employee`.`emp_id` WHERE `leave`.`accepted`=0";
-        //$data['query'] = "SELECT * FROM `leave` WHERE `accepted`=0";
-        $data['results'] = $this->dbaccess->getAll($data);
-        $this->viewAcceptLeave($data);
+
+        $query=mysql_query("SELECT * FROM `leave` LEFT JOIN `employee` ON `leave`.`user_id` = `employee`.`emp_id` WHERE `leave`.`accepted`=0");
+        while($fetch = mysql_fetch_array($query))
+        {
+            $output[] = array ($fetch['leave_id'],$fetch['emp_name'],$fetch['signature_id'],$fetch['leave_type'],$fetch['leave_description']);
+        }
+        echo json_encode($output);
     }
     //search from date leave are for
     public function dateSearch()
