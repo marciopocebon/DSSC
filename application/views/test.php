@@ -34,7 +34,7 @@ var oTable = $('#jsontable').dataTable();  //Initialize the datatable
                                     s[i][0],
 									s[i][1],
 									s[i][2],
-							        "<button>cl</button><button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#conn'>change password</button> "
+							        "<a href='#conn' data-id= s[i][0] data-toggle='modal' target='#orderModal'>clik me se this</a><button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#conn'>change password</button> "
                                       	   ]);
 										} // End For
 										
@@ -46,17 +46,42 @@ var oTable = $('#jsontable').dataTable();  //Initialize the datatable
 		}
 	});
 
+//	$("#jsontable tbody tr").click(function () {
+//		//this = the row a user has clicked
+//		var storedNameInTable = $(this).find("#name").text(); // will get the label with id = name from the same row a user has clicked
+//		$("#name").val(storedNameInTable); //will take the name and put it on the textbox.
+//		var self = this;        //saves the row scope
+//		$("#SaveChanges").click(function () {
+//			var NameAfterChange = $("#name").val();  //takes the newly changed name
+//			$(self).find("#name").text(NameAfterChange);  //puts it in the table
+//			$("#SaveChanges").unbind("click");  //make sure you want call this button again so you want have more than 1 click event
+//		});
+//	});
 
 	$('#jsontable tbody').on( 'click', 'button', function () {
-		//var data = table.row( $(this).parents('tr') ).data();
-		alert( "works" );
-	} );
-	
-	$('#cl').on( 'click', function (e) {
+		var parentRow = $(this).parents('tr')[0];
+		var shit=$('td:eq(0)',parentRow).html();
 
-		alert( "works" );
+		document.getElementById('ns').value=shit;
+		document.getElementById('nd').value=$('td:eq(1)',parentRow).html();;
+		document.getElementById('nc').value=$('td:eq(2)',parentRow).html();;
+
 	} );
 	
+
+
+	$(function(){
+		$('#orderModal').modal({
+			keyboard: true,
+			backdrop: "static",
+			show:false,
+
+		}).on('show', function(){
+			var getIdFromRow = $(event.target).closest('tr').data('ID');
+			//make your ajax call populate items or what even you need
+			document.getElementById('ns').value=getIdFromRow;
+		});
+	});
 	
 });
 </script>
@@ -94,14 +119,16 @@ var oTable = $('#jsontable').dataTable();  //Initialize the datatable
 
 <a href="#conn" data-toggle="modal" >clik me se this</a>
 <button id="left">click</button> <button id="right">&raquo;</button>
-<div class="model fade" id="conn">
+<div class="modal fade" id="" role="dialog" >
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<p>Enter data here</p>
 			</div>
 			<div class="modal-body">
-				<input type="text" class="inline" name="intext"/>
+				<input type="text" class="form-control"  name="ns" id="ns"/>
+				<input type="text" class="form-control"  name="nd" id="nd"/>
+				<input type="text" class="form-control"  name="nc" id="nc"/>
 
 			</div>
 			<div class="modal-footer">
@@ -111,6 +138,28 @@ var oTable = $('#jsontable').dataTable();  //Initialize the datatable
 		</div>
 	</div>
 </div>
+
+<div class="example-modal" >
+	<div class="modal" id="conn" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Modal Default</h4>
+				</div>
+				<div class="modal-body">
+					<input type="text" class="form-control"  name="ns" id="ns"/>
+					<input type="text" class="form-control"  name="nd" id="nd"/>
+					<input type="text" class="form-control"  name="nc" id="nc"/>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</div><!-- /.example-modal -->
 
 
 </body>
