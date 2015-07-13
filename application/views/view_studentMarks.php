@@ -137,7 +137,7 @@
 <!--<script src="--><?php //base_url('js/jquery.json-2.4.min.js');?><!--"></script>-->
 <script>
 
-
+    $(document).ready(function() {
     $('.ok').on('click', function (e) {
         var select  = document.getElementById("select_subject");
         var subject = select.options[select.selectedIndex].value;
@@ -173,6 +173,6 @@
         });
 
     }
-
+        });
 
 </script>

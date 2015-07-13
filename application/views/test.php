@@ -24,7 +24,7 @@ var oTable = $('#jsontable').dataTable();  //Initialize the datatable
 		if(user != '') 
 		{ 
 		$.ajax({
-			url: '<?= site_url('leaveEditController/dbSelect'); ?>',
+			url: '<?= site_url('welcome/ifsets'); ?>',
 			dataType: 'json',
 			success: function(s){
 			console.log(s);
@@ -34,8 +34,7 @@ var oTable = $('#jsontable').dataTable();  //Initialize the datatable
                                     s[i][0],
 									s[i][1],
 									s[i][2],
-									s[i][3],
-									s[i][4]
+							        "<button>cl</button><button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#conn'>change password</button> "
                                       	   ]);
 										} // End For
 										
@@ -46,6 +45,19 @@ var oTable = $('#jsontable').dataTable();  //Initialize the datatable
 			});
 		}
 	});
+
+
+	$('#jsontable tbody').on( 'click', 'button', function () {
+		//var data = table.row( $(this).parents('tr') ).data();
+		alert( "works" );
+	} );
+	
+	$('#cl').on( 'click', function (e) {
+
+		alert( "works" );
+	} );
+	
+	
 });
 </script>
 
@@ -62,19 +74,43 @@ var oTable = $('#jsontable').dataTable();  //Initialize the datatable
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>            
+                <th>Email</th>
             </tr>
         </thead>
- 
+		<tbody>
+		</tbody>
         <tfoot>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Email</th>
                 <th>Email</th>
             </tr>
         </tfoot>
     </table>
 </div>
 
+
+
+<a href="#conn" data-toggle="modal" >clik me se this</a>
+<button id="left">click</button> <button id="right">&raquo;</button>
+<div class="model fade" id="conn">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<p>Enter data here</p>
+			</div>
+			<div class="modal-body">
+				<input type="text" class="inline" name="intext"/>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 </body>
