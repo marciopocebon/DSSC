@@ -23,7 +23,7 @@
                     <h3 class="box-title">Select Leave forms</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="leave_Edit_tbl" class="table table-bordered table-striped">
                         <thead>
                         <tr>
                             <th>Leave ID no</th>
@@ -31,21 +31,11 @@
                             <th>Signature ID no</th>
                             <th>Leave Type</th>
                             <th>Description</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
-<!--                        --><?php //foreach($result as $result): ?>
-<!--                        <tr>-->
-<!--                            <td>--><?//=$result['leave_id']; ?><!--</td>-->
-<!--                            <td>--><?//=$result['emp_name']; ?><!--</td>-->
-<!--                            <td>--><?//=$result['signature_id']; ?><!--</td>-->
-<!--                            <td>--><?//=$result['leave_type']; ?><!--</td>-->
-<!--                            <td>--><?//=$result['leave_description']; ?><!--</td>-->
-<!--                            <td>-->
-                                <a href="<?php echo base_url('index.php/leaveEditController/tableLink?index=')  ?>"><i
-                                        class="btn btn-xs btn-warning">Edit</i> </a></td>
-<!--                        </tr>-->
-<!--                        --><?php //endforeach; ?>
+
                         </tbody>
                         <tfoot>
                         <tr>
@@ -54,6 +44,7 @@
                             <th>Signature ID no</th>
                             <th>Leave Type</th>
                             <th>Description</th>
+                            <th></th>
                         </tr>
                         </tfoot>
                     </table>
@@ -70,16 +61,7 @@
 
     $(document).ready(function() {
 
-        //$('#jsontable').dataTable( {
-        //     "ajax": 'arrays.txt'
-        // } );
-
-        var oTable = $('#example1').dataTable();  //Initialize the datatable
-
-
-            var user = $(this).attr('id');
-            if(user != '')
-            {
+        var oTable = $('#leave_Edit_tbl').dataTable();  //Initialize the datatable
                 $.ajax({
                     url: '<?= site_url('leaveEditController/dbSelect'); ?>',
                     dataType: 'json',
@@ -92,7 +74,8 @@
                                 s[i][1],
                                 s[i][2],
                                 s[i][3],
-                                s[i][4]
+                                s[i][4],
+                                "<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#conn'>Edit</button>"
                             ]);
                         } // End For
 
@@ -101,8 +84,40 @@
                         console.log(e.responseText);
                     }
                 });
-            }
+
+
+        $('#leave_Edit_tbl tbody').on( 'click', 'button', function () {
+            var parentRow = $(this).parents('tr')[0];
+            var shit=$('td:eq(0)',parentRow).html();
+
+            document.getElementById('ns').value=shit;
+            document.getElementById('nd').value=$('td:eq(1)',parentRow).html();;
+            document.getElementById('nc').value=$('td:eq(2)',parentRow).html();;
+
+        } );
         });
 
 
 </script>
+
+<div class="example-modal" >
+    <div class="modal" id="conn" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Leave</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control"  name="ns" id="ns"/>
+                    <input type="text" class="form-control"  name="nd" id="nd"/>
+                    <input type="text" class="form-control"  name="nc" id="nc"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div><!-- /.example-modal -->

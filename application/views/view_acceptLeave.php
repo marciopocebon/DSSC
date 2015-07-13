@@ -35,13 +35,14 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="leave_accept_tbl" class="table table-bordered table-striped">
                             <thead>
                             <tr>
                                 <th>Date of Leave</th>
                                 <th>Name</th>
                                 <th>Signature ID no</th>
                                 <th>Leave Type</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -63,7 +64,8 @@
                                 <th>Date of Leave</th>
                                 <th>Name</th>
                                 <th>Signature ID no</th>
-                                <th>Leave Type</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                             </tfoot>
                         </table>
@@ -126,7 +128,7 @@
         //     "ajax": 'arrays.txt'
         // } );
 
-        var oTable = $('#example1').dataTable();  //Initialize the datatable
+        var oTable = $('#leave_accept_tbl').dataTable();  //Initialize the datatable
 
 
         var user = $(this).attr('id');
@@ -144,7 +146,7 @@
                             s[i][1],
                             s[i][2],
                             s[i][3],
-                            s[i][4]
+                            "<button type='button' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#conn'>Accept</button>"
                         ]);
 
                     } // End For
@@ -155,6 +157,16 @@
                 }
             });
         }
+
+        $('#leave_accept_tbl tbody').on( 'click', 'button', function () {
+            var parentRow = $(this).parents('tr')[0];
+            var shit=$('td:eq(0)',parentRow).html();
+
+            document.getElementById('ns').value=shit;
+            document.getElementById('nd').value=$('td:eq(1)',parentRow).html();;
+            document.getElementById('nc').value=$('td:eq(2)',parentRow).html();;
+
+        } );
     });
 
     $(function () {
@@ -162,48 +174,27 @@
         $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
     });
 </script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<!--<script src="--><?php //base_url('js/jquery.json-2.4.min.js');?><!--"></script>-->
-<script>
 
-
-    $('.ok').on('click', function (e) {
-        var select  = document.getElementById("select_subject");
-        var subject = select.options[select.selectedIndex].value;
-        var selects  = document.getElementById("selectTerm");
-        var term = selects.options[selects.selectedIndex].text;
-        var parentRow = $(this).parents('tr')[0];
-        var TableData;
-        TableData={
-            "IndexNo" : $('td:eq(0)',parentRow).html()
-            , "Marks" :$('input[name="txtMarks"]', parentRow).val()
-            , "Subject": subject
-            , "term":term
-        };
-        sendTblDataToServer(TableData);
-        e.preventDefault();
-        $(this).parent().parent().remove();
-    });
-
-
-    function sendTblDataToServer(dats)
-    {
-        var TableData = JSON.stringify(dats);
-
-        $('#tbSendTblDataToServer').val('JSON array to send to server: \n\n' + TableData.replace(/},/g, "},\n"));
-
-        $.ajax({
-            type: "POST",
-            url: "<?=site_url('studentController/insertMarks'); ?>",
-            data: "pTableData=" + TableData,
-            success: function (data) {
-                alert('This was sent back: ' + data);
-            }
-        });
-
-    }
-
-
-</script>
+<div class="example-modal" >
+    <div class="modal" id="conn" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Accept Leave</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control"  name="ns" id="ns"/>
+                    <input type="text" class="form-control"  name="nd" id="nd"/>
+                    <input type="text" class="form-control"  name="nc" id="nc"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div><!-- /.example-modal -->
 
 
