@@ -28,6 +28,7 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="<?php echo base_url();?>bootstrap/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
 
+    <link rel="stylesheet" href="<?php echo base_url() ?>bootstrap/plugins/datatables/dataTables.bootstrap.css"/>
 
     <link rel="stylesheet" href="<?php echo base_url();?>bootstrap/jquery-ui-themes-1.11.4/themes/smoothness/jquery-ui.css">
     <script src="<?php echo base_url();?>bootstrap/plugins/jQuery/jquery-1.10.2.js"></script>

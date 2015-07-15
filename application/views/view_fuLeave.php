@@ -48,7 +48,7 @@
                             </div>
                             </br>
                             <div class="input-group-btn">
-                                <button type="submit" type="submit" name="btn_makLeave"
+                                <button type="submit" name="btn_makLeave"
                                         class="btn btn-group-xs btn-primary">Make a leave
                                 </button>
                             </div>

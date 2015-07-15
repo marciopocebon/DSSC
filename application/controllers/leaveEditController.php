@@ -55,15 +55,18 @@ class LeaveEditController extends CI_Controller
         $this->load->model('dbaccess');
         $data['dat_table'] = 'leave';
 
-        $data =$this->input->post('txtLeaveID');
-        $newRaw = array("leave_description" => $this->input->post('txtDescription')
+        $data =$this->input->post('leaveID_txt');
+        $newRaw = array("leave_description" => $this->input->post('description_txt')
         );
 
         //$this->dbaccess->Leave($data, $newRaw,$wh);
         $this->db->where('leave_id', $data);
         $this->db->update('leave',$newRaw);
-        $this->dbSelect();
-//        }
+      //  $this->dbSelect();
+
+        $message = "<strong>Succesfully</strong> Edited!";
+        $this->json_response(TRUE, $message);
+
     }
 
     public function searchSigID()
