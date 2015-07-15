@@ -25,8 +25,6 @@ class LeaveEditController extends CI_Controller
             $output[] = array ($fetch['leave_id'],$fetch['emp_name'],$fetch['signature_id'],$fetch['leave_type'],$fetch['leave_description']);
         }
         echo json_encode($output);
-
-       // $this->view();
     }
 
 
@@ -41,15 +39,6 @@ class LeaveEditController extends CI_Controller
     }
 
 
-    public function editleave($data)
-    {
-        $data['title']='DSSC Management';
-        $this->load->view('style_Resources/header',$data);
-        $this->load->view('style_Resources/menu');
-        $this->load->view('view_editLeave1');
-        $this->load->view('style_Resources/footer');
-    }
-
     public function leaveEdit()
     {
         $this->load->model('dbaccess');
@@ -59,13 +48,11 @@ class LeaveEditController extends CI_Controller
         $newRaw = array("leave_description" => $this->input->post('description_txt')
         );
 
-        //$this->dbaccess->Leave($data, $newRaw,$wh);
         $this->db->where('leave_id', $data);
         $this->db->update('leave',$newRaw);
-      //  $this->dbSelect();
 
-        $message = "<strong>Succesfully</strong> Edited!";
-        $this->json_response(TRUE, $message);
+
+        $this->json_response(TRUE);
 
     }
 
@@ -93,11 +80,10 @@ class LeaveEditController extends CI_Controller
 
     }
 
-    private function json_response($successful, $message)
+    private function json_response($successful)
     {
         echo json_encode(array(
-            'isSuccessful' => $successful,
-            'message' => $message
+            'isSuccessful' => $successful
         ));
     }
 }
