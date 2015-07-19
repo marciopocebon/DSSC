@@ -20,7 +20,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="acceptList-table" class="table table-bordered table-striped">
                             <thead>
                             <tr>
                                 <th>Date of Leave</th>
@@ -32,15 +32,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($results as $result): ?>
-                                <tr>
-                                    <td><?= $result['leave_date']; ?></td>
-                                    <td><?= $result['emp_name']; ?></td>
-                                    <td><?= $result['signature_id']; ?></td>
-                                    <td><?= $result['leave_type']; ?></td>
-                                    <td><?= $result['leave_description']; ?></td>
-                                </tr>
-                            <?php endforeach; ?>
+
                             </tbody>
                             <tfoot>
                             <tr>
@@ -63,5 +55,33 @@
     </section>
     <!-- /.content -->
 </div><!-- /.content-wrapper -->
+<script>
+    $(document).ready(function() {
 
+        var oTable = $('#acceptList-table').dataTable();  //Initialize the datatable
+        $.ajax({
+                url: '<?= site_url('acceptListController/populateTable'); ?>',
+                dataType: 'json',
+                success: function (s) {
+                    console.log(s);
+                    oTable.fnClearTable();
+                    for (var i = 0; i < s.length; i++) {
+                        oTable.fnAddData([
+                            s[i][0],
+                            s[i][1],
+                            s[i][2],
+                            s[i][3],
+                            s[i][4]
+                        ]);
+
+                    } // End For
+
+                },
+                error: function (e) {
+                    console.log(e.responseText);
+                }
+            });
+
+    });
+</script>
 

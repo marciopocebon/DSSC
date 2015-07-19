@@ -6,11 +6,11 @@ class AcceptListController extends CI_Controller
     public function index()
     {
 
-        $this->select();
+        $this->viewAccList_Leave();
     }
 
     //accept view loader
-    public function viewAccList_Leave($data)
+    public function viewAccList_Leave()
     {
         $data['title']='DSSC Management';
         $this->load->view('style_Resources/header',$data);
@@ -20,11 +20,17 @@ class AcceptListController extends CI_Controller
 
     }
 
-    public function select()
+    public function populateTable()
     {
-        $this->load->model("dbaccess");
-        $data['query']="SELECT * FROM `leave` LEFT JOIN `employee` ON `leave`.`user_id` = `employee`.`emp_id` WHERE `leave`.`accepted`=1";
-        $data['results'] = $this->dbaccess->getAll($data);
-        $this->viewAccList_Leave($data);
+
+        $query=mysql_query("SELECT * FROM `leave` LEFT JOIN `employee` ON `leave`.`user_id` = `employee`.`emp_id` WHERE `leave`.`accepted`=1");
+        //$output
+        while($fetch = mysql_fetch_array($query))
+        {
+            $output[] = array ($fetch['leave_id'],$fetch['emp_name'],$fetch['signature_id'],$fetch['leave_type'],$fetch['leave_description']);
+
+        }
+        echo json_encode($output);
+
     }
 }

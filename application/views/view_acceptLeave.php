@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="<?php echo base_url()?>bootstrap/plugins/datatables/dataTables.bootstrap.css" />
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -35,7 +34,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="leave_accept_tbl" class="table table-bordered table-striped">
+                        <table id="acceptLeave-table" class="table table-bordered table-striped">
                             <thead>
                             <tr>
                                 <th>Date of Leave</th>
@@ -43,27 +42,17 @@
                                 <th>Signature ID no</th>
                                 <th>Leave Type</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
-<!--                            --><?php //foreach ($results as $result): ?>
-<!--                                <tr>-->
-<!--                                    <td>--><?//= $result['leave_date']; ?><!--</td>-->
-<!--                                    <td>--><?//= $result['emp_name']; ?><!--</td>-->
-<!--                                    <td>--><?//= $result['signature_id']; ?><!--</td>-->
-<!--                                    <td>--><?//= $result['leave_type']; ?><!--</td>-->
-<!--                                    <td>-->
-<!--                                        <a href="--><?php //echo base_url('index.php/acceptController/tableLink?index=') . $result['leave_id']; ?><!--"><i-->
-<!--                                                class="btn btn-xs btn-warning">More</i> </a></td>-->
-<!---->
-<!--                                </tr>-->
-<!--                            --><?php //endforeach; ?>
                             </tbody>
                             <tfoot>
                             <tr>
                                 <th>Date of Leave</th>
                                 <th>Name</th>
                                 <th>Signature ID no</th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -122,79 +111,145 @@
 </div><!-- /.content-wrapper -->
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        //$('#jsontable').dataTable( {
-        //     "ajax": 'arrays.txt'
-        // } );
-
-        var oTable = $('#leave_accept_tbl').dataTable();  //Initialize the datatable
-
-
-        var user = $(this).attr('id');
-        if(user != '')
-        {
+        function tableLoad() {
+            var oTable = $('#acceptLeave-table').dataTable();  //Initialize the datatable
             $.ajax({
-                url: '<?= site_url('leaveEditController/dbSelect'); ?>',
+                url: '<?= site_url('acceptController/select'); ?>',
                 dataType: 'json',
-                success: function(s){
+                success: function (s) {
                     console.log(s);
                     oTable.fnClearTable();
-                    for(var i = 0; i < s.length; i++) {
+                    for (var i = 0; i < s.length; i++) {
                         oTable.fnAddData([
                             s[i][0],
                             s[i][1],
                             s[i][2],
                             s[i][3],
+                            s[i][4],
                             "<button type='button' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#conn'>Accept</button>"
                         ]);
-
                     } // End For
 
                 },
-                error: function(e){
+                error: function (e) {
                     console.log(e.responseText);
                 }
             });
         }
 
-        $('#leave_accept_tbl tbody').on( 'click', 'button', function () {
+        $('#acceptLeave-table tbody').on('click', 'button', function () {
             var parentRow = $(this).parents('tr')[0];
-            var shit=$('td:eq(0)',parentRow).html();
+            document.getElementById('leaveId').value = $('td:eq(0)', parentRow).html();
+            document.getElementById('name').value = $('td:eq(1)', parentRow).html();
+            document.getElementById('sigId').value = $('td:eq(2)', parentRow).html();
+            document.getElementById('description_text').value = $('td:eq(4)', parentRow).html();
+        });
 
-            document.getElementById('ns').value=shit;
-            document.getElementById('nd').value=$('td:eq(1)',parentRow).html();;
-            document.getElementById('nc').value=$('td:eq(2)',parentRow).html();;
+        $('#editLeave').submit(function () {
 
-        } );
+            var form = $(this);
+            form.children('button').prop('disabled', true);
+
+
+            var faction = "<?= site_url('leaveEditController/leaveEdit'); ?>"
+            var fdata = form.serialize();
+
+            $.post(faction, fdata, function (rdata) {
+
+                var json = $.parseJSON(rdata);
+
+                if (json.isSuccessful) {
+                    $('#successMessage').html(json.message);
+                    $('#conn').modal('hide');
+                    tableLoad();
+                } else {
+                    $('#errorMessage').html(json.message);
+
+                }
+
+                form.children('button').prop('disabled', false);
+            });
+
+            return false;
+        });
+        window.onload = tableLoad;
     });
 
     $(function () {
-//        $( "#datepicker" ).datepicker();
         $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
     });
 </script>
 
-<div class="example-modal" >
+<div class="example-modal">
     <div class="modal" id="conn" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Accept Leave</h4>
                 </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control"  name="ns" id="ns"/>
-                    <input type="text" class="form-control"  name="nd" id="nd"/>
-                    <input type="text" class="form-control"  name="nc" id="nc"/>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-</div><!-- /.example-modal -->
+                <form id="editLeave" accept-charset="utf-8">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">Leave ID:</label>
+                                <input type="text" class="form-control" name="leaveID_txt" id="leaveId" readonly="readonly"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="message-text" class="control-label">Name:</label>
+                                        <input type="text" class="form-control" name="name-txt" id="name" disabled/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="message-text" class="control-label">Signature No:</label>
+                                        <input type="text" class="form-control" name="signatureID-txt" id="sigId"
+                                               disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="message-text" class="control-label">Leave Type</label>
+                                        <input type="text" class="form-control" name="leaveID-txt" id="leave-Type"
+                                               disabled/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="message-text" class="control-label">Leave option</label>
+                                        <input type="text" class="form-control" name="signatureID-txt" id="leave-option"
+                                               disabled/>
+                                    </div>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                <label for="message-text" class="control-label">Leave Description:</label>
+                                <textarea class="form-control" name="description_txt" id="description_text" readonly="readonly"></textarea>
+
+                            </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="reset" class="btn btn-danger">Reject</button>
+                            <button type="submit" class="btn btn-success ">Accept</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <!-- /.example-modal -->
 
 
