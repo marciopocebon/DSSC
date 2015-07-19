@@ -98,17 +98,7 @@
                                 <!-- /.input group -->
                             </div>
                             </br>
-                            <script type="text/javascript">
-                                $(function () {
-                                    $("#selectType").change(function () {
-                                        if ($(this).val() == "FullDay") {
-                                            $("#toDatediv").show();
-                                        } else {
-                                            $("#toDatediv").hide();
-                                        }
-                                    });
-                                });
-                            </script>
+
 
                             <div id="toDatediv" style="display: none">
                                 <label>To</label>
@@ -162,7 +152,7 @@
     <!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-<script src="<?= base_url('js/jquery.js'); ?>"></script>
+<script src="<?=base_url('js/jquery.js'); ?>"></script>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -182,7 +172,7 @@
 
                 if (json.isSuccessful) {
                     $('#successMessage').html(json.message);
-//                    $('#success').show();
+                    $('#success').show();
                     $('#conn').modal('show');
                 } else {
                     $('#errorMessage').html(json.message);
@@ -221,6 +211,17 @@
         //If this line will be removed, then keypress event handler attached
         //at document level will also be triggered
         event.stopPropagation();
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#selectType").change(function () {
+            if ($(this).val() == "FullDay") {
+                $("#toDatediv").show();
+            } else {
+                $("#toDatediv").hide();
+            }
+        });
     });
 </script>
 <div class="example-modal">

@@ -76,14 +76,14 @@ class LeaveEditController extends CI_Controller
             $name =$row->emp_name;
         }
             $message = $name;
-            $this->json_response(true, $message);
+            $this->json_response($message);
 
     }
 
-    private function json_response($successful)
+    private function json_response($message)
     {
         echo json_encode(array(
-            'isSuccessful' => $successful
+            'message' => $message
         ));
     }
 }
