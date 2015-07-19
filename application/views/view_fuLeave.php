@@ -117,34 +117,6 @@
                 <!-- /.Left col -->
             </form>
 
-
-            <div id="success" class="col-md-6" style="display: none">
-                <div class="box box-solid box-success">
-                    <div class="box-header">
-                        <h3 class="box-title">Success </h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        The leave request is successful!
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
-            </div>
-
-            <div id="error" class="col-md-6" style="display: none">
-                <div class="box box-solid box-danger">
-                    <div class="box-header">
-                        <h3 class="box-title">Fail </h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        The leave request has some error
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-            </div>
-            <!-- /.box -->
         </div>
 
         <!-- /.row (main row) -->
@@ -172,7 +144,6 @@
 
                 if (json.isSuccessful) {
                     $('#successMessage').html(json.message);
-                    $('#success').show();
                     $('#conn').modal('show');
                 } else {
                     $('#errorMessage').html(json.message);
@@ -236,11 +207,11 @@
                 <form id="editLeave" accept-charset="utf-8">
                     <div class="modal-body">
                         <div class="container-fluid">
-                        <p>You have success Created a Leave</p>
+                        <p>The leave request is successful!</p>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">Close</button>
                     </div>
             </div>
             </form>
