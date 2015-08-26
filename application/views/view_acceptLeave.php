@@ -128,7 +128,7 @@
                             s[i][2],
                             s[i][3],
                             s[i][4],
-                            "<button type='button' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#conn'>Accept</button>"
+                            "<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#conn'>more</button>"
                         ]);
                     } // End For
 
@@ -147,7 +147,34 @@
             document.getElementById('description_text').value = $('td:eq(4)', parentRow).html();
         });
 
-        $('#editLeave').submit(function () {
+        $('#accept').on('click',function () {
+            var form = $(this);
+            form.children('button').prop('disabled', true);
+
+
+            var faction = "<?= site_url('leaveEditController/leaveEdit'); ?>"
+            var fdata = form.serialize();
+
+            $.post(faction, fdata, function (rdata) {
+
+                var json = $.parseJSON(rdata);
+
+                if (json.isSuccessful) {
+                    $('#successMessage').html(json.message);
+                    $('#conn').modal('hide');
+                    tableLoad();
+                } else {
+                    $('#errorMessage').html(json.message);
+
+                }
+
+                form.children('button').prop('disabled', false);
+            });
+
+            return false;
+        });
+
+        $('#accept').submit(function () {
 
             var form = $(this);
             form.children('button').prop('disabled', true);
@@ -239,8 +266,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="reset" class="btn btn-danger">Reject</button>
-                            <button type="submit" class="btn btn-success ">Accept</button>
+                            <button type="reset"  class="btn btn-danger">Reject</button>
+                            <button type="submit" name="accept" id="accept" class="btn btn-success ">Accept</button>
                         </div>
                     </div>
                 </form>

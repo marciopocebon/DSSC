@@ -54,7 +54,7 @@
                             </div>
 
                             <div class="input-group-btn">
-                                <button  type="reset" name="reset"
+                                <button  type="reset"
                                         class="btn btn-group-xs btn-default">Reset
                                 </button>
                             </div>
@@ -144,7 +144,9 @@
 
                 if (json.isSuccessful) {
                     $('#successMessage').html(json.message);
+                    document.getElementById("formLeave").reset();
                     $('#conn').modal('show');
+
                 } else {
                     $('#errorMessage').html(json.message);
                     $('#error').show();

@@ -47,6 +47,11 @@
                     <i class="fa fa-list"></i> <span>Accepted Leave List</span>
                 </a>
             </li>
+            <li>
+                <a href="<?php echo base_url('acceptListController/viewLeaveRejectList');?>">
+                    <i class="fa fa-list"></i> <span>Rejected Leave List</span>
+                </a>
+            </li>
 
         </ul>
     </section>

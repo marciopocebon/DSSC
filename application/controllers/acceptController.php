@@ -97,7 +97,7 @@ class AcceptController extends CI_Controller
 
             $where =array('leave_id'=> $this->input->post('txtLeaveID'),
                );
-            $newRaw = array("accepted" => 1,
+            $newRaw = array("accepted" => 1
             );
 
             $this->dbaccess->updateDB($data, $newRaw,$where);
