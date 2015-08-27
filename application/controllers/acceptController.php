@@ -67,49 +67,57 @@ class AcceptController extends CI_Controller
         $this->viewEditLeave();
     }
 
-    public function tableLink()
-    {
-        $data['leaveID'] = $this->input->get('index', TRUE);
-        $id = $data['leaveID'];
-
-        $this->load->model("dbaccess");
-        $data['query'] = "SELECT * FROM `leave` LEFT JOIN `employee` ON `leave`.`user_id` = `employee`.`emp_id` WHERE `leave`.`leave_id`='$id' ";
-        $data['res'] = $this->dbaccess->getAll($data);
-        $this->viewAcceptLeave1($data);
-
-    }
 
     public function acceptLeave()
     {
 
-        //$this->load->library('form_validation');
+        $leaveID = stripcslashes($_POST['leaveID']);
 
-      //  $this->form_validation->set_rules('txtSignatureNo', 'Number', 'required|max_length[3]|alpha_numeric');
+        // Decode the JSON array
+        $leaveID = json_decode($leaveID,TRUE);
 
-
-//        if ($this->form_validation->run() == FALSE) {
-//            $message = "<strong>error</strong>";
-//            $this->json_response(FALSE, $message);
-//        }
-//        else {
             $this->load->model('dbaccess');
             $data['dat_table'] = 'leave';
 
-            $where =array('leave_id'=> $this->input->post('txtLeaveID'),
+            $where =array('leave_id'=>$leaveID
                );
             $newRaw = array("accepted" => 1
             );
 
             $this->dbaccess->updateDB($data, $newRaw,$where);
 
-            $this->acceptlist();
+        $message = "<strong>Leave</strong> Accepted!";
+        $this->json_response(TRUE, $message);
+
+           // $this->acceptlist();
 //        }
     }
 
-    public function acceptlist()
+
+    public function rejectLeave()
     {
-        redirect('acceptListController');
+        $leaveID = stripcslashes($_POST['leaveID']);
+
+        // Decode the JSON array
+        $leaveID = json_decode($leaveID,TRUE);
+
+        $this->load->model('dbaccess');
+        $data['dat_table'] = 'leave';
+
+        $where =array('leave_id'=> $leaveID
+        );
+        $newRaw = array("accepted" => 2
+        );
+
+        $this->dbaccess->updateDB($data, $newRaw,$where);
+
+        $message = "<strong>Leave</strong> Rejected!";
+        $this->json_response(TRUE, $message);
+
+
+
     }
+
 
     function checkDateFormat($date)
     {

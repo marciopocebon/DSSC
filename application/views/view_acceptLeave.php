@@ -63,63 +63,24 @@
                 </div>
                 <!-- /.box -->
             </div>
-<!--            <div class="col-xs-7">-->
-<!--                <div class="box box-primary">-->
-<!--                    <div class="box-header">-->
-<!--                        <h3 class="box-title">Leave Form</h3>-->
-<!--                    </div>-->
-<!--                    <div class="box-body">-->
-<!--                        <form action="--><?//= site_url('acceptController/inserts'); ?><!--" method="post">-->
-<!---->
-<!--                            --><?php //foreach ($res as $res1): ?>
-<!--                            <p>-->
-<!--                               <label> Leave ID : --><?php //echo $res1['leave_id'] ?><!-- .............    </label>-->
-<!--                                <label class="header">  Signature ID : --><?php //echo $res1['emp_name'] ?><!--</label>-->
-<!--                            </p>-->
-<!--                            </br>-->
-<!--                            <p>-->
-<!--                                Leave Description : --><?php //echo $res1['leave_description'] ?>
-<!--                            </p>-->
-<!--                            </br>-->
-<!--                            <p>-->
-<!--                                Leave Type : --><?php //echo $res1['leave_type'] ?>
-<!--                            </p>-->
-<!--                            </br>-->
-<!---->
-<!--                             --><?php //endforeach; ?>
-<!--                            </br>-->
-<!--                            <div class="input-group">-->
-<!--                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>-->
-<!--                                <input type="text" class="form-control" name="txtName" placeholder="Name">-->
-<!--                            </div>-->
-<!--                            </br>-->
-<!--                            <div class="col-xs-2">-->
-<!--                            <input type="submit" name="btn_makLeave" button-->
-<!--                                   class="btn btn-block btn-primary">Primary</button>-->
-<!--                            </div>-->
-<!--                            <img src="dist/img/user1-128x128.jpg" alt="User Image"/>-->
-<!--                            <a class="users-list-name" href="#">Teacher</a>-->
-<!--                            <span class="users-list-date">Today</span>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
             <!-- /.row (main row) -->
     </section>
     <!-- /.content -->
 </div><!-- /.content-wrapper -->
-
+<script src="<?=base_url('js/jquery.js'); ?>"></script>
 <script>
     $(document).ready(function () {
 
+        /*
+         *loading database values to table using dataTable
+         */
         function tableLoad() {
             var oTable = $('#acceptLeave-table').dataTable();  //Initialize the datatable
             $.ajax({
                 url: '<?= site_url('acceptController/select'); ?>',
                 dataType: 'json',
                 success: function (s) {
-                    console.log(s);
+//                    console.log(s);
                     oTable.fnClearTable();
                     for (var i = 0; i < s.length; i++) {
                         oTable.fnAddData([
@@ -139,6 +100,10 @@
             });
         }
 
+        /*
+        *on more button click event
+        *load table data values to modal text box
+        */
         $('#acceptLeave-table tbody').on('click', 'button', function () {
             var parentRow = $(this).parents('tr')[0];
             document.getElementById('leaveId').value = $('td:eq(0)', parentRow).html();
@@ -147,61 +112,59 @@
             document.getElementById('description_text').value = $('td:eq(4)', parentRow).html();
         });
 
-        $('#accept').on('click',function () {
-            var form = $(this);
-            form.children('button').prop('disabled', true);
 
-
-            var faction = "<?= site_url('leaveEditController/leaveEdit'); ?>"
-            var fdata = form.serialize();
-
-            $.post(faction, fdata, function (rdata) {
-
-                var json = $.parseJSON(rdata);
-
-                if (json.isSuccessful) {
-                    $('#successMessage').html(json.message);
-                    $('#conn').modal('hide');
-                    tableLoad();
-                } else {
-                    $('#errorMessage').html(json.message);
-
-                }
-
-                form.children('button').prop('disabled', false);
-            });
-
-            return false;
-        });
-
-        $('#accept').submit(function () {
-
-            var form = $(this);
-            form.children('button').prop('disabled', true);
-
-
-            var faction = "<?= site_url('leaveEditController/leaveEdit'); ?>"
-            var fdata = form.serialize();
-
-            $.post(faction, fdata, function (rdata) {
-
-                var json = $.parseJSON(rdata);
-
-                if (json.isSuccessful) {
-                    $('#successMessage').html(json.message);
-                    $('#conn').modal('hide');
-                    tableLoad();
-                } else {
-                    $('#errorMessage').html(json.message);
-
-                }
-
-                form.children('button').prop('disabled', false);
-            });
-
-            return false;
-        });
+        //loading table data on page loading
         window.onload = tableLoad;
+
+        /*
+         * Reject leave on click javascript
+         * send leave id to acceptController rejectLeave function
+         */
+        $('#reject').click(function () {
+            var leaveId = document.getElementById('leaveId').value;
+
+            var leaveID = JSON.stringify(leaveId);
+            $('#tbSendTblDataToServer').val('JSON array to send to server: \n\n' + leaveID.replace(/},/g, "},\n"));
+
+            $.ajax({
+                type: "POST",
+                url: "<?=site_url('acceptController/rejectLeave') ?>",
+                data: "leaveID=" + leaveID,
+                success: function (data) {
+                    obj = JSON.parse(data);
+                    if(obj.isSuccessful)
+                    {
+                        $('#conn').modal('toggle');
+                        tableLoad();
+                    }
+                }
+            });
+        });
+
+        /*
+          * Accept leave on click javascript
+          * send leave id to acceptController acceptLeave function
+        */
+        $('#accept').click(function () {
+            var leaveId = document.getElementById('leaveId').value;
+
+            var leaveID = JSON.stringify(leaveId);
+            $('#tbSendTblDataToServer').val('JSON array to send to server: \n\n' + leaveID.replace(/},/g, "},\n"));
+
+            $.ajax({
+                type: "POST",
+                url: "<?=site_url('acceptController/acceptLeave') ?>",
+                data: "leaveID=" + leaveID,
+                success: function (data) {
+                    obj = JSON.parse(data);
+                    if(obj.isSuccessful)
+                    {
+                        $('#conn').modal('toggle');
+                        tableLoad();
+                    }
+                }
+            });
+        });
     });
 
     $(function () {
@@ -266,11 +229,12 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="reset"  class="btn btn-danger">Reject</button>
-                            <button type="submit" name="accept" id="accept" class="btn btn-success ">Accept</button>
+                            <button type="button" name="reject" id="reject" class="btn btn-danger">Reject</button>
+
+                            <button type="button" name="accept" id="accept" class="btn btn-success ">Accept</button>
                         </div>
-                    </div>
                 </form>
+            </div>
                 <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
