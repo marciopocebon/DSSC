@@ -37,7 +37,7 @@ class AcceptListController extends CI_Controller
         //$output
         while($fetch = mysql_fetch_array($query))
         {
-            $output[] = array ($fetch['leave_id'],$fetch['emp_name'],$fetch['signature_id'],$fetch['leave_type'],$fetch['leave_description']);
+            $output[] = array ($fetch['leave_id'],$fetch['emp_name'],$fetch['signature_id'],$fetch['leave_type_o'],$fetch['leave_type'],$fetch['leave_date'],$fetch['leave_date_to'],$fetch['leave_description']);
 
         }
         echo json_encode($output);
@@ -51,7 +51,7 @@ class AcceptListController extends CI_Controller
         //$output
         while($fetch = mysql_fetch_array($query))
         {
-            $output[] = array ($fetch['leave_id'],$fetch['emp_name'],$fetch['signature_id'],$fetch['leave_type'],$fetch['leave_description']);
+            $output[] = array ($fetch['leave_id'],$fetch['emp_name'],$fetch['signature_id'],$fetch['leave_type_o'],$fetch['leave_type'],$fetch['leave_date'],$fetch['leave_date_to'],$fetch['leave_description']);
 
         }
         echo json_encode($output);

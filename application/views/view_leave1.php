@@ -54,7 +54,7 @@
                 </section>
                 <section class="col-lg-6 connectedSortable">
                     <div class="info-box">
-                        <a href=<?php echo base_url("site/viewMonthlyLeave");?>><span class="info-box-icon bg-green"><i class="fa fa-file-text-o"></i></span></a>
+                        <a href=<?php echo base_url("site/viewMonthlyLeave");?>><span class="info-box-icon bg-yellow-active"><i class="fa fa-file-text-o"></i></span></a>
                         <div class="info-box-content">
                             <span class="info-box-text"></span>
                             <span class="info-box-number">Monthly Report</span>
@@ -69,10 +69,21 @@
             <section class="col-lg-6 connectedSortable">
                 <section class="col-lg-6 connectedSortable">
                     <div class="info-box">
-                        <a href=<?php echo base_url("site/viewAccList_Leave");?>><span class="info-box-icon bg-maroon"><i class="fa fa-list"></i></span></a>
+                        <a href=<?php echo base_url("site/viewAccList_Leave");?>><span class="info-box-icon bg-green"><i class="fa fa-list"></i></span></a>
                         <div class="info-box-content">
                             <span class="info-box-text"></span>
                             <span class="info-box-number">Approved List</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </section>
+                <section class="col-lg-6 connectedSortable">
+                    <div class="info-box">
+                        <a href=<?php echo base_url("acceptListController/viewLeaveRejectList");?>><span class="info-box-icon bg-red "><i class="fa fa-list"></i></span></a>
+                        <div class="info-box-content">
+                            <span class="info-box-text"></span>
+                            <span class="info-box-number">Rejected List</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>

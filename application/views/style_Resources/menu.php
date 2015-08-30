@@ -14,7 +14,7 @@
             <li>
                 <a href="<?php echo base_url('site/viewAccept');?>">
                     <i class="fa fa-check-square-o"></i> <span>Accept Leave Request</span>
-                    <small class="label pull-right bg-red">3</small>
+<!--                    <small class="label pull-right bg-red">3</small>-->
                 </a>
             </li>
 

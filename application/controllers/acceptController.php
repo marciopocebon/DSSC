@@ -35,7 +35,7 @@ class AcceptController extends CI_Controller
         $query=mysql_query("SELECT * FROM `leave` LEFT JOIN `employee` ON `leave`.`user_id` = `employee`.`emp_id` WHERE `leave`.`accepted`=0");
         while($fetch = mysql_fetch_array($query))
         {
-            $output[] = array ($fetch['leave_id'],$fetch['emp_name'],$fetch['signature_id'],$fetch['leave_type'],$fetch['leave_description']);
+            $output[] = array ($fetch['leave_id'],$fetch['emp_name'],$fetch['signature_id'],$fetch['leave_type_o'],$fetch['leave_type'],$fetch['leave_date'],$fetch['leave_date_to'],$fetch['leave_description']);
         }
         echo json_encode($output);
     }
@@ -71,23 +71,27 @@ class AcceptController extends CI_Controller
     public function acceptLeave()
     {
 
-        $leaveID = stripcslashes($_POST['leaveID']);
+        $leaveAccepts = stripcslashes($_POST['leaveAccepts']);
 
         // Decode the JSON array
-        $leaveID = json_decode($leaveID,TRUE);
+        $leaveAccepts = json_decode($leaveAccepts,TRUE);
 
             $this->load->model('dbaccess');
             $data['dat_table'] = 'leave';
 
-            $where =array('leave_id'=>$leaveID
+            $where =array('leave_id'=>$leaveAccepts['leaveID']
                );
             $newRaw = array("accepted" => 1
             );
 
             $this->dbaccess->updateDB($data, $newRaw,$where);
 
+        insertLeaveCount($leaveAccepts['sigID'],dateCounter($leaveAccepts['fromDate'],$leaveAccepts['toDate']),leaveType($leaveAccepts['leaveType']),$leaveAccepts['fromDate']);
+
         $message = "<strong>Leave</strong> Accepted!";
         $this->json_response(TRUE, $message);
+
+
 
            // $this->acceptlist();
 //        }
@@ -139,4 +143,95 @@ class AcceptController extends CI_Controller
         ));
     }
 
+    /*
+     * used to update and make records of leave count
+     * First check the record available for the specific month , signature id and leave type
+     * Else create a new record for that
+     */
+    public function insertLeaveCount($signatureNo,$dateCount,$leaveType,$leaveDate)
+    {
+        $query = $this->db->query("SELECT `count` FROM `leavecount` where EXTRACT(MONTH from `leavecount`.`year&month`)=EXTRACT(MONTH from  now()) and EXTRACT(YEAR from `leavecount`.`year&month`)=EXTRACT(YEAR from  now()) and `leavecount`.`leaveType`='$leaveType' and `leavecount`.`signatureID`='$signatureNo'");
+
+        //check if there any rows return else assign count 0
+        if ($query->num_rows() > 0)
+        {
+            $row = $query->row();
+            $count =$row->count;
+            $count=$count+$dateCount;
+            $this->db->query("UPDATE `leavecount` SET `count`=$count   where EXTRACT(MONTH from `leavecount`.`year&month`)=EXTRACT(MONTH from  now()) and EXTRACT(YEAR from `leavecount`.`year&month`)=EXTRACT(YEAR from  now()) and `leavecount`.`leaveType`='$leaveType' and `leavecount`.`signatureID`='$signatureNo'");
+        }
+        else
+        {
+            $this->load->model('dbaccess');
+            $data['dat_table'] = 'leaveCount';
+
+
+            $myDateTime = new DateTime($leaveDate);
+            $newDateString = $myDateTime->format('Y-m-d');
+
+
+
+            $newRaw = array("signatureID" =>$signatureNo,
+                "leaveType" => $leaveType,
+                "count" =>$dateCount,
+                "year&month" => $newDateString
+            );
+
+            $this->dbaccess->insertDB($data, $newRaw);
+
+        }
+    }
+
+    /*
+    * calculate no of working days
+    */
+    public function dateCounter($sdate,$edate)
+    {
+        //Define out start and end dates
+        $start = new DateTime($sdate);
+        $end = new DateTime($edate);
+
+        $interval = new DateInterval('P1D');
+        $end->setTime(0, 0)->add($interval);
+        //Define our holidays
+        $holidays = array(
+
+        );
+        //Create a DatePeriod with date intervals of 1 day between start and end dates
+        $period = new DatePeriod( $start, new DateInterval( 'P1D' ), $end );
+        //Holds valid DateTime objects of valid dates
+        $days = array();
+        //iterate over the period by day
+        foreach( $period as $day )
+        {
+            //If the day of the week is not a weekend
+            $dayOfWeek = $day->format( 'N' );
+            if( $dayOfWeek < 6 ){
+                //If the day of the week is not a pre-defined holiday
+                $format = $day->format( 'd-m-Y' );
+                if( false === in_array( $format, $holidays ) ){
+                    //Add the valid day to our days array
+                    //This could also just be a counter if that is all that is necessary
+                    $days[] = $day;
+                }
+            }
+        }
+
+        return count($days);
+    }
+
+    public function leaveType($leaveType)
+    {
+        $lType="";
+        if ($leaveType == "Casual") {
+            $lType="c";
+        } else if ($leaveType == "Duty") {
+            $lType="d";
+        }else if ($leaveType == "Sick") {
+            $lType="s";
+        }else if ($leaveType == "Paid") {
+            $lType="p";
+        }
+        return $lType;
+    }
 }

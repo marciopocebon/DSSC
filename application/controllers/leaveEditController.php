@@ -56,30 +56,6 @@ class LeaveEditController extends CI_Controller
 
     }
 
-    public function searchSigID()
-    {
-        $empID_txt = stripcslashes($_POST['empID']);
-
-        // Decode the JSON array
-        $empID_txt = json_decode($empID_txt,TRUE);
-
-        // now $tableData can be accessed like a PHP array
-
-        $this->load->model('dbaccess');
-
-            $empID= $empID_txt['empID'];
-         $query = $this->db->query("SELECT `emp_name` FROM `employee` WHERE `emp_id` ='$empID'");
-
-        if ($query->num_rows() > 0)
-        {
-            $row = $query->row();
-            $name =$row->emp_name;
-        }
-            $message = $name;
-            $this->json_response($message);
-
-    }
-
     private function json_response($message)
     {
         echo json_encode(array(

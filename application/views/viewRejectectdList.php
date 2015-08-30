@@ -23,24 +23,28 @@
                         <table id="acceptList-table" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Date of Leave</th>
+                                <th>#</th>
                                 <th>Name</th>
-                                <th>Signature ID no</th>
+                                <th>Sig ID</th>
                                 <th>Leave Type</th>
-                                <th>Leave Description</th>
-
+                                <th>Leave Option</th>
+                                <th>Date From</th>
+                                <th>Date To</th>
+                                <th>Description</th>
                             </tr>
                             </thead>
                             <tbody>
-
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>Date of Leave</th>
+                                <th>#</th>
                                 <th>Name</th>
-                                <th>Signature ID no</th>
+                                <th>Sig ID</th>
                                 <th>Leave Type</th>
-                                <th>Leave Description</th>
+                                <th>Leave Option</th>
+                                <th>Date From</th>
+                                <th>Date To</th>
+                                <th>Description</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -63,7 +67,6 @@
             url: '<?= site_url('acceptListController/populateRejectedList'); ?>',
             dataType: 'json',
             success: function (s) {
-                console.log(s);
                 oTable.fnClearTable();
                 for (var i = 0; i < s.length; i++) {
                     oTable.fnAddData([
@@ -71,7 +74,10 @@
                         s[i][1],
                         s[i][2],
                         s[i][3],
-                        s[i][4]
+                        s[i][4],
+                        s[i][5],
+                        s[i][6],
+                        s[i][7]
                     ]);
 
                 } // End For

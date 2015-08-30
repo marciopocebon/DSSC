@@ -37,11 +37,14 @@
                         <table id="acceptLeave-table" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Date of Leave</th>
+                                <th>#</th>
                                 <th>Name</th>
-                                <th>Signature ID no</th>
+                                <th>Sig ID</th>
                                 <th>Leave Type</th>
-                                <th></th>
+                                <th>Leave Option</th>
+                                <th>Date From</th>
+                                <th>Date To</th>
+                                <th>Description</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -49,11 +52,14 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>Date of Leave</th>
+                                <th>#</th>
                                 <th>Name</th>
-                                <th>Signature ID no</th>
-                                <th></th>
-                                <th></th>
+                                <th>Sig ID</th>
+                                <th>Leave Type</th>
+                                <th>Leave Option</th>
+                                <th>Date From</th>
+                                <th>Date To</th>
+                                <th>Description</th>
                                 <th></th>
                             </tr>
                             </tfoot>
@@ -89,6 +95,9 @@
                             s[i][2],
                             s[i][3],
                             s[i][4],
+                            s[i][5],
+                            s[i][6],
+                            s[i][7],
                             "<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#conn'>more</button>"
                         ]);
                     } // End For
@@ -109,7 +118,11 @@
             document.getElementById('leaveId').value = $('td:eq(0)', parentRow).html();
             document.getElementById('name').value = $('td:eq(1)', parentRow).html();
             document.getElementById('sigId').value = $('td:eq(2)', parentRow).html();
-            document.getElementById('description_text').value = $('td:eq(4)', parentRow).html();
+            document.getElementById('leave_Type').value = $('td:eq(3)', parentRow).html();
+            document.getElementById('leave_option').value = $('td:eq(4)', parentRow).html();
+            document.getElementById('fromDate').value = $('td:eq(5)', parentRow).html();
+            document.getElementById('toDate').value = $('td:eq(6)', parentRow).html();
+            document.getElementById('description_text').value = $('td:eq(7)', parentRow).html();
         });
 
 
@@ -122,6 +135,7 @@
          */
         $('#reject').click(function () {
             var leaveId = document.getElementById('leaveId').value;
+
 
             var leaveID = JSON.stringify(leaveId);
             $('#tbSendTblDataToServer').val('JSON array to send to server: \n\n' + leaveID.replace(/},/g, "},\n"));
@@ -147,14 +161,19 @@
         */
         $('#accept').click(function () {
             var leaveId = document.getElementById('leaveId').value;
+            var sigID = document.getElementById('sigId').value;
+            var leaveType = document.getElementById('leave_Type').value;
+            var fromDate = document.getElementById('fromDate').value;
+            var toDate = document.getElementById('toDate').value;
 
-            var leaveID = JSON.stringify(leaveId);
-            $('#tbSendTblDataToServer').val('JSON array to send to server: \n\n' + leaveID.replace(/},/g, "},\n"));
+            leaveAccept={ "leaveID":leaveId, "sigID":sigID,"leaveType":leaveType,"fromDate":fromDate , "toDate":toDate};
+            var leaveAccepts = JSON.stringify(leaveAccept);
+            $('#tbSendTblDataToServer').val('JSON array to send to server: \n\n' + leaveAccepts.replace(/},/g, "},\n"));
 
             $.ajax({
                 type: "POST",
                 url: "<?=site_url('acceptController/acceptLeave') ?>",
-                data: "leaveID=" + leaveID,
+                data: "leaveAccepts=" + leaveAccepts,
                 success: function (data) {
                     obj = JSON.parse(data);
                     if(obj.isSuccessful)
@@ -193,14 +212,14 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="message-text" class="control-label">Name:</label>
-                                        <input type="text" class="form-control" name="name-txt" id="name" disabled/>
+                                        <input type="text" class="form-control" name="name_txt" id="name" readonly="readonly"/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="message-text" class="control-label">Signature No:</label>
-                                        <input type="text" class="form-control" name="signatureID-txt" id="sigId"
-                                               disabled/>
+                                        <input type="text" class="form-control" name="signatureID_txt" id="sigId"
+                                               readonly/>
                                     </div>
                                 </div>
                             </div>
@@ -208,15 +227,31 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="message-text" class="control-label">Leave Type</label>
-                                        <input type="text" class="form-control" name="leaveID-txt" id="leave-Type"
-                                               disabled/>
+                                        <input type="text" class="form-control" name="leaveType_txt" id="leave_Type"
+                                               readonly/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="message-text" class="control-label">Leave option</label>
-                                        <input type="text" class="form-control" name="signatureID-txt" id="leave-option"
-                                               disabled/>
+                                        <input type="text" class="form-control" name="leave_option" id="leave_option"
+                                               readonly/>
+                                    </div>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="message-text" class="control-label">Leave Date</label>
+                                        <input type="text" class="form-control" name="fromDate" id="fromDate"
+                                               readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="message-text" class="control-label">To</label>
+                                        <input type="text" class="form-control" name="toDate" id="toDate"
+                                               readonly/>
                                     </div>
                                     </div>
                                 </div>

@@ -22,7 +22,7 @@
                         </div>
                         <div class="box-body">
 
-                            <label>Signature No</label>
+                            <label>Signature No : </label>
 
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
@@ -30,7 +30,7 @@
                                        placeholder="Number" required maxlength="3">
                             </div>
                             </br>
-                            <label>Name</label>
+                            <label>Name : </label>
 
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -38,8 +38,7 @@
                                        placeholder="Name" required maxlength="100">
                             </div>
                             </br>
-
-                            <label>Leave Reason</label>
+                            <label>Leave Reason : </label>
 
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-edit"></i></span>
@@ -65,53 +64,62 @@
                 <section class="col-xs-6">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">Leave Form</h3>
+<!--                            <h3 class="box-title">Leave Form</h3>-->
                         </div>
                         <div class="box-body">
                             <div class="form-group">
-                                <label>Select Leave type</label>
-                                <select class="form-control" name="select_leave_Type">
-                                    <option>Casual Leave</option>
-                                    <option>Duty Leave</option>
-                                    <option>Sick leave</option>
-                                    <option>Paid leave</option>
+                                <label>Select Leave type : </label>
+                                <select class="form-control" name="select_leave_Type" id="select_leave_Type">
+                                    <option>Casual</option>
+                                    <option>Duty</option>
+                                    <option>Sick</option>
+                                    <option>Paid</option>
                                 </select>
                             </div>
+                            <label>Total Leave Count : </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="leaveCount" id="leaveCount" readonly
+                                        required maxlength="3">
+                            </div>
+                            </br>
                             <div class="form-group">
-                                <label>Select Leave option</label>
+                                <label>Select Leave option : </label>
                                 <select class="form-control" name="selectType" id="selectType">
                                     <option>Half day</option>
                                     <option>Short leave</option>
                                     <option value="FullDay">Full leave</option>
                                 </select>
                             </div>
-                            <label>Select Leave Date</label>
-
+                            <label>Select Leave Date : </label>
                             <div class="box-body">
                                 <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </span>
-                                    <input type="date" placeholder="DD/MM/YYYY" name="txtDate" class="form-control"
+                                    <input type="text" placeholder="DD/MM/YYYY" name="txtDate" id="from" class="form-control"
                                           />
                                 </div>
                                 <!-- /.input group -->
                             </div>
-                            </br>
-
-
                             <div id="toDatediv" style="display: none">
-                                <label>To</label>
+                                <label>To : </label>
                                 <div class="box-body">
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </span>
-                                        <input type="date" placeholder="DD/MM/YYYY" name="txtToDate" class="form-control"
+                                        <input type="text" placeholder="DD/MM/YYYY" name="txtToDate" id="to" class="form-control"
                                                />
                                     </div>
+                                </div>
                             </div>
+                            <label>No of Working Days : </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="workingDays" id="workingDays"  readonly
+                                       required maxlength="3">
+
                             </div>
+
                         </div>
                 </section>
                 <!-- /.Left col -->
@@ -143,7 +151,7 @@
                 var json = $.parseJSON(rdata);
 
                 if (json.isSuccessful) {
-                    $('#successMessage').html(json.message);
+//                    $('#successMessage').html(json.message);
                     document.getElementById("formLeave").reset();
                     $('#conn').modal('show');
 
@@ -164,6 +172,7 @@
     //Bind keypress event to textbox
     $('#sigID').keypress(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
+        //check if it is the enter key pressed
         if(keycode == '13'){
             signatureID={ "empID":$(this).val()};
             var emID = JSON.stringify(signatureID);
@@ -172,7 +181,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "<?=site_url('leaveEditController/searchSigID') ?>",
+                url: "<?=site_url('leaveController/searchSigID') ?>",
                 data: "empID=" + emID,
                 success: function (data) {
                     obj = JSON.parse(data);
@@ -185,6 +194,32 @@
         //at document level will also be triggered
         event.stopPropagation();
     });
+
+    document.getElementById("to").onchange = function() {dateCount()};
+
+    function dateCount() {
+        var from= document.getElementById('from').value;
+        var to= document.getElementById('to').value;
+
+        dates={ "from":from , "to":to};
+        var days = JSON.stringify(dates);
+
+        $('#tbSendTblDataToServer').val('JSON array to send to server: \n\n' + days.replace(/},/g, "},\n"));
+
+        $.ajax({
+            type: "POST",
+            url: "<?=site_url('leaveController/dateCounter') ?>",
+            data: "days=" + days,
+            success: function (data) {
+                obj = JSON.parse(data);
+                $('#workingDays').val(obj.message);
+            }
+        });
+        //Stop the event from propogation to other handlers
+        //If this line will be removed, then keypress event handler attached
+        //at document level will also be triggered
+        event.stopPropagation();
+    }
 </script>
 <script type="text/javascript">
     $(function () {
@@ -193,6 +228,58 @@
                 $("#toDatediv").show();
             } else {
                 $("#toDatediv").hide();
+            }
+        });
+    });
+
+    $(function () {
+        $("#select_leave_Type").change(function () {
+            var lType="";
+            if ($(this).val() == "Casual") {
+                lType="c";
+            } else if ($(this).val() == "Duty") {
+                lType="d";
+            }else if ($(this).val() == "Sick") {
+                lType="s";
+            }else if ($(this).val() == "Paid") {
+                lType="p";
+            }
+            var signatureNo = document.getElementById("sigID").value;
+            leave={ "leaveType":lType , "signatureNo":signatureNo};
+            var leaveType = JSON.stringify(leave);
+
+            $('#tbSendTblDataToServer').val('JSON array to send to server: \n\n' + leaveType.replace(/},/g, "},\n"));
+
+            $.ajax({
+                type: "POST",
+                url: "<?=site_url('leaveController/getLeaveCount') ?>",
+                data: "leaveType=" + leaveType,
+                success: function (data) {
+                    obj = JSON.parse(data);
+                    $('#leaveCount').val(obj.message);
+                }
+            });
+        });
+    });
+
+
+</script>
+<script>
+    $(function() {
+        $( "#from" ).datepicker({
+            defaultDate: "",
+            changeMonth: true,
+            numberOfMonths: 1,
+            onClose: function( selectedDate ) {
+                $( "#to" ).datepicker( "option", "minDate", selectedDate );
+            }
+        });
+        $( "#to" ).datepicker({
+            defaultDate: "",
+            changeMonth: true,
+            numberOfMonths: 1,
+            onClose: function( selectedDate ) {
+                $( "#from" ).datepicker( "option", "maxDate", selectedDate );
             }
         });
     });
