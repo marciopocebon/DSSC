@@ -82,6 +82,7 @@
          */
         function tableLoad() {
             var oTable = $('#acceptLeave-table').dataTable();  //Initialize the datatable
+            oTable.fnClearTable();
             $.ajax({
                 url: '<?= site_url('acceptController/select'); ?>',
                 dataType: 'json',
@@ -180,6 +181,11 @@
                     {
                         $('#conn').modal('toggle');
                         tableLoad();
+                    }
+                    else
+                    {
+                        $('#conn').modal('toggle');
+                        alert("error");
                     }
                 }
             });

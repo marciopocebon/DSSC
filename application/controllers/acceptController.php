@@ -76,20 +76,31 @@ class AcceptController extends CI_Controller
         // Decode the JSON array
         $leaveAccepts = json_decode($leaveAccepts,TRUE);
 
+        $leaveID=$leaveAccepts['leaveID'];
+        $sigID=$leaveAccepts['sigID'];
+        $type=$leaveAccepts['leaveType'];
+        $fromDate=$leaveAccepts['fromDate'];
+        $toDate=$leaveAccepts['toDate'];
+
             $this->load->model('dbaccess');
             $data['dat_table'] = 'leave';
 
-            $where =array('leave_id'=>$leaveAccepts['leaveID']
+            $where =array('leave_id'=>$leaveID
                );
             $newRaw = array("accepted" => 1
             );
 
             $this->dbaccess->updateDB($data, $newRaw,$where);
 
-        insertLeaveCount($leaveAccepts['sigID'],dateCounter($leaveAccepts['fromDate'],$leaveAccepts['toDate']),leaveType($leaveAccepts['leaveType']),$leaveAccepts['fromDate']);
+
+
+        $this->insertLeaveCount($sigID,$this->dateCounter($fromDate,$toDate),$this->leaveType($type),$fromDate);
 
         $message = "<strong>Leave</strong> Accepted!";
         $this->json_response(TRUE, $message);
+
+
+
 
 
 
@@ -158,28 +169,23 @@ class AcceptController extends CI_Controller
             $row = $query->row();
             $count =$row->count;
             $count=$count+$dateCount;
-            $this->db->query("UPDATE `leavecount` SET `count`=$count   where EXTRACT(MONTH from `leavecount`.`year&month`)=EXTRACT(MONTH from  now()) and EXTRACT(YEAR from `leavecount`.`year&month`)=EXTRACT(YEAR from  now()) and `leavecount`.`leaveType`='$leaveType' and `leavecount`.`signatureID`='$signatureNo'");
+            mysql_query("UPDATE `leavecount` SET `count`=$count   where EXTRACT(MONTH from `leavecount`.`year&month`)=EXTRACT(MONTH from  now()) and EXTRACT(YEAR from `leavecount`.`year&month`)=EXTRACT(YEAR from  now()) and `leavecount`.`leaveType`='$leaveType' and `leavecount`.`signatureID`='$signatureNo'");
         }
         else
         {
             $this->load->model('dbaccess');
-            $data['dat_table'] = 'leaveCount';
-
-
-            $myDateTime = new DateTime($leaveDate);
-            $newDateString = $myDateTime->format('Y-m-d');
-
-
+            $data['dat_table'] = 'leavecount';
 
             $newRaw = array("signatureID" =>$signatureNo,
                 "leaveType" => $leaveType,
                 "count" =>$dateCount,
-                "year&month" => $newDateString
+                "year&month" => $leaveDate
             );
 
             $this->dbaccess->insertDB($data, $newRaw);
 
         }
+        return true;
     }
 
     /*
@@ -208,7 +214,7 @@ class AcceptController extends CI_Controller
             $dayOfWeek = $day->format( 'N' );
             if( $dayOfWeek < 6 ){
                 //If the day of the week is not a pre-defined holiday
-                $format = $day->format( 'd-m-Y' );
+                $format = $day->format( 'Y-m-d' );
                 if( false === in_array( $format, $holidays ) ){
                     //Add the valid day to our days array
                     //This could also just be a counter if that is all that is necessary
