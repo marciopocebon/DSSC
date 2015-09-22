@@ -10,7 +10,7 @@
                     <span>Library Home</span>
                 </a>
             </li>
-
+            <li class="header">BOOKS</li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibList');?>">
                     <i class="glyphicon glyphicon-edit "></i> <span>All Books</span>
@@ -22,6 +22,7 @@
                     </span>
                 </a>
             </li>
+            <li class="header">BOOK LEND</li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibBorrow');?>">
                     <i class="fa fa-print"></i> <span>Borrow Book
@@ -46,6 +47,7 @@
                     </span>
                 </a>
             </li>
+            <li class="header">SETTINGS</li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibCategory');?>">
                     <i class="fa fa-print"></i> <span>Add New Book Categories

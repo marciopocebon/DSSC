@@ -2,7 +2,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Leave
+            Library
             <small>Management</small>
         </h1>
     </section>
@@ -20,32 +20,23 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="acceptList-table" class="table table-bordered table-striped">
+                        <table id="booksList-table" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Sig ID</th>
-                                <th>Leave Type</th>
-                                <th>Leave Option</th>
-                                <th>Date From</th>
-                                <th>Date To</th>
-                                <th>Description</th>
+                                <th>ISBN</th>
+                                <th>Book Name</th>
+                                <th>Author</th>
+                                <th>Edition</th>
+                                <th>Publisher</th>
+                                <th>Copies Available</th>
+                                <th>Total Copies</th>
+                                <th>Shelf No</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Sig ID</th>
-                                <th>Leave Type</th>
-                                <th>Leave Option</th>
-                                <th>Date From</th>
-                                <th>Date To</th>
-                                <th>Description</th>
-                            </tr>
                             </tfoot>
                         </table>
                     </div>
@@ -62,9 +53,9 @@
 <script>
     $(document).ready(function() {
 
-        var oTable = $('#acceptList-table').dataTable();  //Initialize the datatable
+        var oTable = $('#booksList-table').dataTable();  //Initialize the datatable
         $.ajax({
-            url: '<?= site_url('acceptListController/populateRejectedList'); ?>',
+            url: '<?= site_url('libraryController/booksList'); ?>',
             dataType: 'json',
             success: function (s) {
                 oTable.fnClearTable();
@@ -77,7 +68,8 @@
                         s[i][4],
                         s[i][5],
                         s[i][6],
-                        s[i][7]
+                        s[i][7],
+                        "<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#conn'>more</button>"
                     ]);
 
                 } // End For
