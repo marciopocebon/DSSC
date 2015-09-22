@@ -2,7 +2,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Student
+            Library
             <small>Management</small>
         </h1>
     </section>
