@@ -88,74 +88,11 @@ class Site extends CI_Controller {
        redirect('acceptListController');
     }
 
-//    public function getvalue()
-//    {
-//        $this->load->model("dbAccess");
-//        $data['query']='SELECT * FROM leave';
-//        $data['result']=$this->Model_get_db->getAll($data);
-//        $this->load->view('view_db',$data);
-//    }
-
-    public function inserts()
-    {
-       // sleep(1);
-        $this->load->library('form_validation');
-        // echo 'this works';
-        $this->form_validation->set_rules('txtSignatureNo', 'Number', 'required|max_length[3]|alpha_numeric');
-       // $this->form_validation->set_rules('date','Date','callback_checkDateFormat');
-
-        if ($this->form_validation->run() == FALSE) {
-            $message = "<strong>error</strong>";
-            $this->json_response(FALSE, $message);
-        }
-        else {
-            $this->load->model('dbaccess');
-            $data['dat_table'] = 'leave';
-
-            $dateString = $this->input->post('txtDate');
-            $myDateTime = new DateTime($dateString);
-            $newDateString = $myDateTime->format('Y-m-d');
-
-            $dateStringto = $this->input->post('txtToDate');
-            $myDateTime = new DateTime($dateStringto);
-            $newDateStringto = $myDateTime->format('Y-m-d');
-
-            $newRaw = array("signature_id" => $this->input->post('txtSignatureNo'),
-                "leave_description" => $this->input->post('txtDescription'),
-                "leave_type" => $this->input->post('selectType'),
-                "leave_type_o" => $this->input->post('select_leave_Type'),
-                "leave_date" => $newDateString,
-                "leave_date_to" => $newDateStringto,
-                "user_id" => $this->input->post('txtSignatureNo')
-            );
-
-            $this->dbaccess->insertDB($data, $newRaw);
-
-            $message = "<strong>Leave</strong> Created!";
-            $this->json_response(TRUE, $message);
-            // $this->viewEditLeave();
-        }
-        }
-
-
-
-
     public function viewAccept()
     {
         redirect('acceptController');
     }
 
-    function checkDateFormat($date)
-    {
-        if (preg_match("/[0-31]{2}\/[0-12]{2}\/[0-9]{4}/", $date)) {
-            if (checkdate(substr($date, 3, 2), substr($date, 0, 2), substr($date, 6, 4)))
-                return true;
-            else
-                return false;
-        } else {
-            return false;
-        }
-    }
 
     private function json_response($successful, $message)
     {

@@ -18,45 +18,45 @@
             </li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibAdd');?>">
-                    <i class="fa fa-male"></i> <span>Add Books
+                    <i class="fa fa-book "></i> <span>Add Books
                     </span>
                 </a>
             </li>
             <li class="header">BOOK LEND</li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibBorrow');?>">
-                    <i class="fa fa-print"></i> <span>Borrow Book
+                    <i class="fa fa-arrow-right "></i> <span>Borrow Book
                     </span>
                 </a>
             </li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibReturn');?>">
-                    <i class="fa fa-print"></i> <span>Return Book
+                    <i class="fa fa-arrow-left "></i> <span>Return Book
                     </span>
                 </a>
             </li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibDueBooks');?>">
-                    <i class="fa fa-print"></i> <span>Due Books
+                    <i class="fa fa-align-center"></i> <span>Due Books
                     </span>
                 </a>
             </li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibReturn');?>">
-                    <i class="fa fa-print"></i> <span>View Borrow Details
+                    <i class="fa fa-table"></i> <span>View Borrow Details
                     </span>
                 </a>
             </li>
             <li class="header">SETTINGS</li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibCategory');?>">
-                    <i class="fa fa-print"></i> <span>Add New Book Categories
+                    <i class="fa fa-graduation-cap"></i> <span>Add New Book Categories
                     </span>
                 </a>
             </li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibLocation');?>">
-                    <i class="fa fa-print"></i> <span>Change Book Location
+                    <i class="fa fa-compass "></i> <span>Change Book Location
                     </span>
                 </a>
             </li>

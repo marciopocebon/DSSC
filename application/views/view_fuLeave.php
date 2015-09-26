@@ -143,7 +143,7 @@
             $('#success').hide();
             $('#error').hide();
 
-            var faction = "<?= site_url('site/inserts'); ?>"
+            var faction = "<?= site_url('leaveController/inserts'); ?>"
             var fdata = form.serialize();
 
             $.post(faction, fdata, function (rdata) {

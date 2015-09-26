@@ -13,4 +13,18 @@ class LibraryModel extends CI_Model
         }
         return $output;
     }
+
+    public function insertDB($data1,$data)
+    {
+        $this->db->insert($data1['dat_table'], $data);
+
+        if( $this->db->affected_rows() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

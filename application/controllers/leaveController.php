@@ -72,7 +72,6 @@ class LeaveController extends CI_Controller
         $end->setTime(0, 0)->add($interval);
         //Define our holidays
         $holidays = array(
-
         );
         //Create a DatePeriod with date intervals of 1 day between start and end dates
         $period = new DatePeriod( $start, new DateInterval( 'P1D' ), $end );
