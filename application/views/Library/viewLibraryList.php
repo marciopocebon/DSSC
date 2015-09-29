@@ -16,7 +16,7 @@
 
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Accepted Leaves</h3>
+                        <h3 class="box-title">Change Book Location</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -25,6 +25,7 @@
                             <tr>
                                 <th>ISBN</th>
                                 <th>Book Name</th>
+                                <th>Subject</th>
                                 <th>Author</th>
                                 <th>Edition</th>
                                 <th>Publisher</th>
@@ -69,6 +70,7 @@
                         s[i][5],
                         s[i][6],
                         s[i][7],
+                        s[i][8],
                         "<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#conn'>more</button>"
                     ]);
 

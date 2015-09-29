@@ -25,4 +25,6 @@ class Login_Model extends CI_Model
         }
         return $role;
     }
+
+
 }

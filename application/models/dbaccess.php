@@ -37,9 +37,10 @@ class DBAccess extends CI_Model
         $this->db->update($table['dat_table'], $data, $wh['leave_id']);
     }
 
-    public function deleteDB($table,$data,$where)
+    public function deleteDB($table,$where)
     {
-        $this->db->delete($table, $data, $where);
+        $this->db->where($where);
+        $this->db->delete($table);
     }
 
 

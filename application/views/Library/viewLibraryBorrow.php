@@ -11,7 +11,7 @@
     <section class="content">
         <!-- Main row -->
         <div class="row" style="display: none;">
-            <form id="addBooksForm" accept-charset="utf-8">
+            <form id="borrowForm" accept-charset="utf-8">
                 <section class="col-xs-6 ">
                     <!-- Input addon -->
                     <div class="box box-primary">
@@ -19,7 +19,6 @@
                             <h3 class="box-title">Book Detail Form</h3>
                         </div>
                         <div class="box-body">
-
                             <label>Student ID : </label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-child "></i></span>
@@ -54,17 +53,14 @@
                                 <input type="text" class="form-control" name="noOfDays" id="noOfDays" readonly>
                             </div>
                             </br>
-
                             <div class="input-group-btn">
-                                <button type="submit" name="btn_makLeave"
+                                <button type="submit" name="borrowBtn"
                                         class="btn btn-group-xs btn-success pull-right">Borrow Book
                                 </button>
                             </div>
                         </div>
                 </section>
                 </form>
-
-
         </div>
         <!-- /.row (main row) -->
     </section>
@@ -112,4 +108,54 @@
         });
         event.stopPropagation();
     }
+
+    $(document).ready(function () {
+
+        $('#borrowForm').submit(function () {
+
+            var form = $(this);
+            form.children('button').prop('disabled', true);
+
+            var faction = "<?= site_url('libraryController/borrowBooks'); ?>"
+            var fdata = form.serialize();
+
+            $.post(faction, fdata, function (rdata) {
+                var json = $.parseJSON(rdata);
+                if (json.isSuccessful) {
+                    document.getElementById("borrowForm").reset();
+                    $('#success').modal('show');
+                } else {
+                }
+                form.children('button').prop('disabled', false);
+            });
+            return false;
+        });
+        $('.content').fadeIn(400);
+    });
 </script>
+<div class="example-modal">
+    <div class="modal modal-success" id="success" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Success</h4>
+                </div>
+                <form id="editLeave" accept-charset="utf-8">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <p>The book has been reserved !</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">Close</button>
+                    </div>
+            </div>
+            </form>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>

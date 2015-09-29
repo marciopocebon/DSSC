@@ -19,9 +19,7 @@
                         <h3 class="box-title">Book Detail Form</h3>
                     </div>
                     <div class="box-body">
-
                         <label>ISBN : </label>
-
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-certificate "></i></span>
                             <input type="number" class="form-control" name="isbn" id="isbn"
@@ -29,7 +27,6 @@
                         </div>
                         </br>
                         <label>Title : </label>
-
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-book"></i></span>
                             <input type="text" class="form-control" name="title" id="title"
@@ -37,7 +34,6 @@
                         </div>
                         </br>
                         <label>Subject : </label>
-
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-bookmark-o "></i></span>
                                 <select class="form-control" name="subject" id="subject">
@@ -45,22 +41,6 @@
                                 </select>
                         </div>
                         </br>
-
-                        <div class="input-group-btn">
-                            <button type="submit" name="btn_makLeave"
-                                    class="btn btn-group-xs btn-primary">Save
-                            </button>
-                        </div>
-
-                    </div>
-            </section>
-            <!-- Middle col -->
-
-            <section class="col-xs-6">
-                <div class="box box-primary">
-                    <div class="box-header">
-                    </div>
-                    <div class="box-body">
                         <div class="form-group">
                             <label>Author : </label>
                             <div class="input-group">
@@ -69,9 +49,22 @@
                                        placeholder="Author" required maxlength="300">
                             </div>
                         </div>
+                        <div class="input-group-btn">
+                            <button type="submit" name="btn_makLeave"
+                                    class="btn btn-success btn-primary pull-right">Save
+                            </button>
+                        </div>
+                    </div>
+            </section>
+            <!-- Middle col -->
+            <section class="col-xs-6">
+                <div class="box box-primary">
+                    <div class="box-header">
+                    </div>
+                    <div class="box-body">
                         <label>Edition : </label>
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-"></i></span>
+                            <span class="input-group-addon"><i class="fa fa-edit "></i></span>
                             <input type="text" class="form-control" name="edition" id="edition"
                                    required maxlength="3">
                         </div>
@@ -79,30 +72,25 @@
                         <div class="form-group">
                             <label>Publisher : </label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-puzzle-piece "></i></span>
                                 <input type="text" class="form-control" name="publisher" id="publisher"
                                        required maxlength="100">
                             </div>
                         </div>
+                        </br>
                         <label>Copies : </label>
-                        <div class="box-body">
                             <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                <input type="number" placeholder="Number of Copies" name="copies" id="copies" class="form-control"
-                                    />
+                                <span class="input-group-addon"><i class="fa fa-copy"></i></span>
+                                <input type="number" class="form-control" placeholder="Number of Copies" name="copies" id="copies"
+                                       required maxlength="3">
                             </div>
-                            <!-- /.input group -->
-                        </div>
+                        </br>
                         <label>Shelf No : </label>
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-"></i></span>
-                            <input type="number" class="form-control" name="shelfNo" id="shelfNo"
+                            <span class="input-group-addon"><i class="fa fa-table"></i></span>
+                            <input type="number" class="form-control" name="shelfNo" id="shelfNo" placeholder="Shell No"
                                    required maxlength="3">
-
                         </div>
-
                     </div>
             </section>
             </form>
@@ -121,22 +109,16 @@
             var form = $(this);
             form.children('button').prop('disabled', true);
 
-
             var faction = "<?= site_url('libraryController/addBooks'); ?>"
             var fdata = form.serialize();
 
             $.post(faction, fdata, function (rdata) {
-
                 var json = $.parseJSON(rdata);
-
                 if (json.isSuccessful) {
-//                    $('#successMessage').html(json.message);
-                    document.getElementById("addBookForm").reset();
+                    document.getElementById("addBooksForm").reset();
                     $('#success').modal('show');
-
                 } else {
                 }
-
                 form.children('button').prop('disabled', false);
             });
             return false;
