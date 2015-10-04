@@ -119,12 +119,9 @@
                     tableLoad();
                 } else {
                     $('#errorMessage').html(json.message);
-
                 }
-
                 form.children('button').prop('disabled', false);
             });
-
             return false;
         });
         window.onload = tableLoad;

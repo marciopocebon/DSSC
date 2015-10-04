@@ -261,8 +261,6 @@
             });
         });
     });
-
-
 </script>
 <script>
     $(function() {

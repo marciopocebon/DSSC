@@ -22,8 +22,8 @@
                         <label>ISBN : </label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-certificate "></i></span>
-                            <input type="number" class="form-control" name="isbn" id="isbn"
-                                   placeholder="ISBN" >
+                            <input type="number" class="numbersOnly form-control" name="isbn" id="isbn"
+                                   placeholder="ISBN" min="0" step="1">
                         </div>
                         </br>
                         <label>Title : </label>
@@ -37,7 +37,10 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-bookmark-o "></i></span>
                                 <select class="form-control" name="subject" id="subject">
-                                    <option>IT</option>
+                                    <option>Select</option>
+                                    <?php foreach ($results as $result): ?>
+                                            <option><?= $result['subject_name']; ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                         </div>
                         </br>
@@ -65,8 +68,8 @@
                         <label>Edition : </label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-edit "></i></span>
-                            <input type="text" class="form-control" name="edition" id="edition"
-                                   required maxlength="3">
+                            <input type="number" class="numbersOnly form-control" name="edition" id="edition"
+                                   required maxlength="3" min="0" step="1">
                         </div>
                         </br>
                         <div class="form-group">
@@ -81,15 +84,15 @@
                         <label>Copies : </label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-copy"></i></span>
-                                <input type="number" class="form-control" placeholder="Number of Copies" name="copies" id="copies"
-                                       required maxlength="3">
+                                <input type="number" class="numbersOnly form-control" placeholder="Number of Copies" name="copies" id="copies"
+                                       required maxlength="3" min="0" step="1">
                             </div>
                         </br>
                         <label>Shelf No : </label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-table"></i></span>
-                            <input type="number" class="form-control" name="shelfNo" id="shelfNo" placeholder="Shell No"
-                                   required maxlength="3">
+                            <input type="number" class="numbersOnly form-control" name="shelfNo" id="shelfNo" placeholder="Shell No"
+                                   required maxlength="3" min="0" step="1">
                         </div>
                     </div>
             </section>
@@ -103,6 +106,9 @@
 <script src="<?=base_url('js/jquery.js'); ?>"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        jQuery('.numbersOnly').keyup(function () {
+            this.value = this.value.replace(/[^0-9\.]/g,'');
+        });
 
         $('#addBooksForm').submit(function () {
 

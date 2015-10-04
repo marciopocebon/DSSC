@@ -32,7 +32,7 @@
                                 <th>Copies Available</th>
                                 <th>Total Copies</th>
                                 <th>Shelf No</th>
-                                <th>Action</th>
+<!--                                <th>Action</th>-->
                             </tr>
                             </thead>
                             <tbody>
@@ -71,7 +71,7 @@
                         s[i][6],
                         s[i][7],
                         s[i][8],
-                        "<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#conn'>more</button>"
+//                        "<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#conn'>more</button>"
                     ]);
 
                 } // End For

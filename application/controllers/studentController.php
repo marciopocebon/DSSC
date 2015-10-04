@@ -75,18 +75,11 @@ class StudentController extends CI_Controller
     {
         $tableData = stripcslashes($_POST['pTableData']);
 
-        // Decode the JSON array
         $tableData = json_decode($tableData,TRUE);
-
-        // now $tableData can be accessed like a PHP array
 
         $this->load->model('dbaccess');
         $table= 'student_exam_resutlt';
-
-
-
         $vals= $tableData['term'];
-
 
         if($vals=="Term1") {
             $newRaw = array("subject_id" => $tableData['Subject'],
@@ -120,7 +113,6 @@ class StudentController extends CI_Controller
 
     public function prints()
     {
-
         $dat = (new DateTime())->format('Y-m-d');
         $this->load->model("dbaccess");
         $indexNo=$this->input->post('txtIndexNo');

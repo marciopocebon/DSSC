@@ -37,16 +37,16 @@
             </li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibDueBooks');?>">
-                    <i class="fa fa-align-center"></i> <span>Due Books
+                    <i class="fa fa-align-center"></i> <span>Today Due Books
                     </span>
                 </a>
             </li>
-            <li>
-                <a href="<?php echo base_url('libraryController/loadLibReturn');?>">
-                    <i class="fa fa-table"></i> <span>View Borrow Details
-                    </span>
-                </a>
-            </li>
+<!--            <li>-->
+<!--                <a href="--><?php //echo base_url('libraryController/loadLibReturn');?><!--">-->
+<!--                    <i class="fa fa-table"></i> <span>View Borrow Details-->
+<!--                    </span>-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="header">SETTINGS</li>
             <li>
                 <a href="<?php echo base_url('libraryController/loadLibCategory');?>">

@@ -22,15 +22,15 @@
                             <label>Student ID : </label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-child "></i></span>
-                                <input type="number" class="form-control" name="studentID" id="studentID"
-                                       placeholder="ID" >
+                                <input type="number" class="numbersOnly form-control" name="studentID" id="studentID"
+                                       placeholder="ID" min="0" step="1" >
                             </div>
                             </br>
                             <label>ISBN : </label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-certificate "></i></span>
-                                <input type="number" class="form-control" name="isbn" id="isbn"
-                                       placeholder="ISBN" required maxlength="60">
+                                <input type="number" class="numbersOnly form-control" name="isbn" id="isbn"
+                                       placeholder="ISBN" required maxlength="60" min="0" step="1">
                             </div>
                             </br>
                             <label>Issue Date : </label>
@@ -68,10 +68,12 @@
 </div><!-- /.content-wrapper -->
 <script>
     $(function() {
+        var dateToday = new Date();
         $( "#issueDate" ).datepicker({
             defaultDate: "",
             changeMonth: true,
             numberOfMonths: 1,
+            minDate: dateToday,
             onClose: function( selectedDate ) {
                 $( "#dueDate" ).datepicker( "option", "minDate", selectedDate );
             }
@@ -110,6 +112,9 @@
     }
 
     $(document).ready(function () {
+        jQuery('.numbersOnly').keyup(function () {
+            this.value = this.value.replace(/[^0-9\.]/g,'');
+        });
 
         $('#borrowForm').submit(function () {
 

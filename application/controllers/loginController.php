@@ -38,8 +38,13 @@ class LoginController extends CI_Controller
                     'role'=>$role
                 );
                 $this->session->set_userdata($data);
-
-                redirect('site');
+                if($role=='i')
+                {
+                    redirect('libraryController');
+                }
+                else {
+                    redirect('site');
+                }
             } else {
                 redirect('loginController/error');
             }

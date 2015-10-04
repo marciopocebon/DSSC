@@ -6,7 +6,6 @@
             <small>Management</small>
         </h1>
     </section>
-
     <!-- Main content -->
     <section class="content">
         <!-- Main row -->
@@ -24,8 +23,8 @@
 
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-child "></i></span>
-                                <input type="number" class="form-control" name="studentID" id="studentID"
-                                       placeholder="Student ID">
+                                <input type="number" class="numbersOnly form-control" name="studentID" id="studentID"
+                                       placeholder="Student ID" min="0" step="1">
                             </div>
                             </br>
 
@@ -37,7 +36,6 @@
 
                         </div>
                 </section>
-                <!-- Middle col -->
 
                 <section class="col-xs-6">
                     <div class="box box-primary">
@@ -91,7 +89,6 @@
                                     <input type="text" name="overDueDates" id="overDueDates" class="form-control"
                                            readonly/>
                                 </div>
-
                             </div>
                 </section>
             </form>
@@ -102,6 +99,9 @@
 </div><!-- /.content-wrapper -->
 <script type="text/javascript">
     $(document).ready(function () {
+        jQuery('.numbersOnly').keyup(function () {
+            this.value = this.value.replace(/[^0-9\.]/g,'');
+        });
 
         $('#return').click(function () {
             var studentID = document.getElementById('studentID').value;
@@ -130,9 +130,7 @@
         if (keycode == '13') {
             studentID = {"studentID": $(this).val()};
             var stuID = JSON.stringify(studentID);
-
-            $('#tbSendTblDataToServer').val('JSON array to send to server: \n\n' + stuID.replace(/},/g, "},\n"));
-
+            $('#tbSend').val('send \n\n' + stuID.replace(/},/g, "},\n"));
             $.ajax({
                 type: "POST",
                 url: "<?=site_url('libraryController/studentDueBooks') ?>",
