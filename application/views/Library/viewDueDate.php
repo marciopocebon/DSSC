@@ -25,12 +25,10 @@
                             <tr>
                                 <th>ISBN</th>
                                 <th>Book Name</th>
-                                <th>Author</th>
                                 <th>Lend Date</th>
                                 <th>Due Date</th>
                                 <th>Index no of Student</th>
                                 <th>Name</th>
-
                             </tr>
                             </thead>
                             <tbody>
@@ -66,8 +64,7 @@
                         s[i][3],
                         s[i][4],
                         s[i][5],
-                        s[i][6],
-                        s[i][7]
+                        s[i][6]
                     ]);
 
                 } // End For

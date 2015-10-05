@@ -101,6 +101,7 @@
                     document.getElementById("subjectForm").reset();
                     tableLoad()
                 } else {
+                    $('#error').modal('show');
                 }
                 form.children('button').prop('disabled', false);
             });
@@ -138,3 +139,29 @@
         });
     });
 </script>
+<div class="example-modal">
+    <div class="modal modal-danger" id="error" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Error</h4>
+                </div>
+                <form id="editLeave" accept-charset="utf-8">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <p>The Subject already in the database!</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">Close</button>
+                    </div>
+            </div>
+            </form>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>

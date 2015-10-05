@@ -23,14 +23,14 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-certificate "></i></span>
                             <input type="number" class="numbersOnly form-control" name="isbn" id="isbn"
-                                   placeholder="ISBN" min="0" step="1">
+                                   placeholder="ISBN" min="1" step="1" required maxlength="13">
                         </div>
                         </br>
                         <label>Title : </label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-book"></i></span>
                             <input type="text" class="form-control" name="title" id="title"
-                                   placeholder="Title" required maxlength="300">
+                                   placeholder="Title" required maxlength="100">
                         </div>
                         </br>
                         <label>Subject : </label>
@@ -49,7 +49,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 <input type="text" class="form-control" name="author" id="author"
-                                       placeholder="Author" required maxlength="300">
+                                       placeholder="Author" required maxlength="100">
                             </div>
                         </div>
                         <div class="input-group-btn">
@@ -85,14 +85,14 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-copy"></i></span>
                                 <input type="number" class="numbersOnly form-control" placeholder="Number of Copies" name="copies" id="copies"
-                                       required maxlength="3" min="0" step="1">
+                                       required maxlength="3" min="1" step="1">
                             </div>
                         </br>
                         <label>Shelf No : </label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-table"></i></span>
                             <input type="number" class="numbersOnly form-control" name="shelfNo" id="shelfNo" placeholder="Shell No"
-                                   required maxlength="3" min="0" step="1">
+                                   required maxlength="2" min="1" step="1">
                         </div>
                     </div>
             </section>
@@ -124,6 +124,7 @@
                     document.getElementById("addBooksForm").reset();
                     $('#success').modal('show');
                 } else {
+                    $('#error').modal('show');
                 }
                 form.children('button').prop('disabled', false);
             });
@@ -149,6 +150,32 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success pull-left" data-dismiss="modal">Close</button>
+                    </div>
+            </div>
+            </form>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+<div class="example-modal">
+    <div class="modal modal-danger" id="error" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Error</h4>
+                </div>
+                <form id="editLeave" accept-charset="utf-8">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <strong>Adding Book failed!!</strong>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
                     </div>
             </div>
             </form>

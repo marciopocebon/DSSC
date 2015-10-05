@@ -130,7 +130,9 @@
         if (keycode == '13') {
             studentID = {"studentID": $(this).val()};
             var stuID = JSON.stringify(studentID);
-            $('#tbSend').val('send \n\n' + stuID.replace(/},/g, "},\n"));
+
+            $('#tbSendTblDataToServer').val('JSON array to send to server: \n\n' + stuID.replace(/},/g, "},\n"));
+
             $.ajax({
                 type: "POST",
                 url: "<?=site_url('libraryController/studentDueBooks') ?>",

@@ -60,7 +60,7 @@
                 <div class="box-body">
                     <div class="alert alert-danger alert-dismissable">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-ban"></i> Lgoin Failed!</h4>
+                        <h4><i class="icon fa fa-ban"></i> Login Failed!</h4>
                         <strong>Login</strong> failed!.
                     </div>
                 </div>

@@ -16,7 +16,7 @@
 
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Change Book Location</h3>
+                        <h3 class="box-title">All Books</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -32,7 +32,7 @@
                                 <th>Copies Available</th>
                                 <th>Total Copies</th>
                                 <th>Shelf No</th>
-<!--                                <th>Action</th>-->
+                                <!--                                <th>Action</th>-->
                             </tr>
                             </thead>
                             <tbody>
@@ -84,4 +84,3 @@
 
     });
 </script>
-
